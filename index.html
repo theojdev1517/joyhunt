@@ -1,2 +1,515 @@
-<h1>Joy Hunt</h1>
-<p>Coming soon.</p>
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Joy Hunt — Notice more. Scroll less.</title>
+  <meta name="description" content="Joy Hunt gives you one small mindful mission each day: notice it, find it, and keep the moment if you want." />
+
+  <style>
+    :root {
+      --bg: #eef4f1;
+      --card: #ffffffcc;
+      --text: #1f2d2a;
+      --muted: #5f706b;
+      --primary: #6f9b8d;
+      --primary-dark: #52786d;
+      --secondary: #d8d1ea;
+      --line: #d8e4df;
+      --shadow: 0 24px 60px rgba(31, 45, 42, 0.12);
+      --radius: 28px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, #d8d1ea 0, transparent 34rem),
+        radial-gradient(circle at bottom right, #cfe3dc 0, transparent 32rem),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .page {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    header {
+      padding: 24px 0;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      font-size: 1.15rem;
+    }
+
+    .logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      box-shadow: 0 10px 28px rgba(82, 120, 109, 0.22);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .nav-links a {
+      text-decoration: none;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 48px;
+      align-items: center;
+      padding: 64px 0 72px;
+    }
+
+    .eyebrow {
+      color: var(--primary-dark);
+      font-weight: 750;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: clamp(3rem, 8vw, 6.2rem);
+      line-height: 0.94;
+      letter-spacing: -0.08em;
+      margin: 0 0 24px;
+      max-width: 780px;
+    }
+
+    .lead {
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      color: var(--muted);
+      max-width: 650px;
+      margin: 0 0 32px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 22px;
+      border-radius: 999px;
+      font-weight: 750;
+      text-decoration: none;
+      transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+    }
+
+    .button-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 14px 30px rgba(82, 120, 109, 0.26);
+    }
+
+    .button-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .button-secondary {
+      background: #ffffff99;
+      border: 1px solid var(--line);
+      color: var(--text);
+    }
+
+    .note {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .phone {
+      background: #172421;
+      border-radius: 42px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      max-width: 390px;
+      justify-self: center;
+      width: 100%;
+    }
+
+    .screen {
+      background: linear-gradient(180deg, #f8fbf9, #edf4f1);
+      border-radius: 30px;
+      min-height: 640px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .streak {
+      color: var(--primary-dark);
+      font-weight: 800;
+      font-size: 0.95rem;
+    }
+
+    .hunt-card {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 32px 26px;
+      box-shadow: 0 18px 40px rgba(31, 45, 42, 0.08);
+      text-align: center;
+    }
+
+    .hunt-label {
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 18px;
+    }
+
+    .hunt-text {
+      font-size: 2rem;
+      line-height: 1.12;
+      letter-spacing: -0.04em;
+      font-weight: 850;
+      margin: 0;
+    }
+
+    .found {
+      width: 100%;
+      border: 0;
+      border-radius: 22px;
+      min-height: 58px;
+      background: var(--primary);
+      color: white;
+      font-size: 1.05rem;
+      font-weight: 850;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      text-align: center;
+      margin-top: 18px;
+    }
+
+    .tab {
+      background: #ffffff99;
+      padding: 10px 8px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+    }
+
+    section {
+      padding: 64px 0;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1;
+      letter-spacing: -0.06em;
+      margin: 0 0 18px;
+    }
+
+    .section-copy {
+      color: var(--muted);
+      font-size: 1.08rem;
+      max-width: 760px;
+      margin: 0 0 28px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 30px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 14px 34px rgba(31, 45, 42, 0.06);
+      backdrop-filter: blur(10px);
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      letter-spacing: -0.03em;
+      font-size: 1.2rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .wide {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .quote {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      line-height: 1.1;
+      letter-spacing: -0.05em;
+      font-weight: 850;
+      margin: 0;
+    }
+
+    footer {
+      padding: 48px 0 36px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .footer-inner {
+      border-top: 1px solid var(--line);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 860px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding-top: 36px;
+      }
+
+      .phone {
+        max-width: 360px;
+      }
+
+      .screen {
+        min-height: 560px;
+      }
+
+      .grid,
+      .wide {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+  <header>
+    <div class="page">
+      <nav aria-label="Main navigation">
+        <div class="brand">
+          <div class="logo" aria-hidden="true">✨</div>
+          <span>Joy Hunt</span>
+        </div>
+
+```
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#launch">Launch</a>
+    </div>
+  </nav>
+</div>
+```
+
+  </header>
+
+  <main>
+    <div class="page hero">
+      <div>
+        <div class="eyebrow">One small mindful mission every day</div>
+        <h1>Notice more. Scroll less.</h1>
+        <p class="lead">
+          Joy Hunt gives you a simple daily prompt that sends you back into real life:
+          find a small moment, mark it found, and keep the memory only if you want.
+        </p>
+
+```
+    <div class="actions" id="launch">
+      <a class="button button-primary" href="/app">Launch Joy Hunt</a>
+      <a class="button button-secondary" href="#how">How it works</a>
+    </div>
+
+    <p class="note">
+      No account required. No ads. No tracking. Your moments stay on your device unless you choose otherwise later.
+    </p>
+  </div>
+
+  <div class="phone" aria-label="Joy Hunt app preview">
+    <div class="screen">
+      <div class="streak">Joy Streak: 7 days</div>
+
+      <div class="hunt-card">
+        <div class="hunt-label">Today’s Joy Hunt</div>
+        <p class="hunt-text">Notice evidence that someone cared.</p>
+      </div>
+
+      <div>
+        <button class="found">Found It</button>
+        <div class="tabs" aria-hidden="true">
+          <div class="tab">Today</div>
+          <div class="tab">Moments</div>
+          <div class="tab">Settings</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="how">
+  <div class="page">
+    <h2 class="section-title">Simple on purpose.</h2>
+    <p class="section-copy">
+      Joy Hunt is not another feed, tracker, or productivity system. It is a quiet daily nudge
+      to notice something good in the world you are already living in.
+    </p>
+
+    <div class="grid">
+      <div class="card">
+        <h3>1. Get today’s hunt</h3>
+        <p>Open the app and receive one universal prompt designed to work almost anywhere.</p>
+      </div>
+
+      <div class="card">
+        <h3>2. Go find it</h3>
+        <p>The app’s job is to get out of the way while you notice your actual life.</p>
+      </div>
+
+      <div class="card">
+        <h3>3. Mark it found</h3>
+        <p>Tap Found It. Add a photo or note only if you want to remember the moment.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="page wide">
+    <div class="card">
+      <p class="quote">You succeed because you noticed.</p>
+    </div>
+
+    <div class="card">
+      <h3>Built for quiet joy</h3>
+      <p>
+        No notification badges. No endless feed. No pressure to document everything.
+        Joy Hunt celebrates the noticing itself.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="privacy">
+  <div class="page">
+    <h2 class="section-title">Private by default.</h2>
+    <p class="section-copy">
+      Joy Hunt v0.1 stores your moments locally on your device. There are no accounts,
+      no ads, no analytics, and no cloud upload. Sharing happens only when you explicitly choose it.
+    </p>
+
+    <div class="grid">
+      <div class="card">
+        <h3>No account required</h3>
+        <p>Start using Joy Hunt without signing in or handing over personal details.</p>
+      </div>
+
+      <div class="card">
+        <h3>Local-first storage</h3>
+        <p>Your notes and photos stay on the device or browser where you created them.</p>
+      </div>
+
+      <div class="card">
+        <h3>Share only by choice</h3>
+        <p>Moments are shared through your device’s native share sheet only when you tap Share.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="page">
+    <div class="card">
+      <h2 class="section-title">Coming next</h2>
+      <p class="section-copy">
+        Joy Cloud, backup, sync, Joy Circles, and app-store releases are planned for later.
+        The first version is intentionally small: one hunt, one moment, one day at a time.
+      </p>
+      <a class="button button-primary" href="/app">Launch Joy Hunt</a>
+    </div>
+  </div>
+</section>
+```
+
+  </main>
+
+  <footer>
+    <div class="page footer-inner">
+      <div>© 2025 Stellar Kydeon Software. All rights reserved.</div>
+      <div>Joy Hunt v0.1</div>
+    </div>
+  </footer>
+</body>
+</html>
